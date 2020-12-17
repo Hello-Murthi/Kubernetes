@@ -1,0 +1,50 @@
+Developed by Google
+
+How K8S born?
+Issue with Containers
+1. What if a container relies on other container?
+2. What if no. of users increase and scall app?
+3. How to scale down when decreases
+
+This process of deploying, managing of containers automatically is container orchestration
+
+
+Kubernetes
+A container orchestration technology, used to orchestrationthe deployment, management of hundreds/thousands of containers in a clustered environemnt
+
+
+K8S Architecture
+A cluster with multiple child nodes and master node to manage child nodes
+
+Components of K8S
+1. API Server
+    Is like front-end for K8S, user management devices, cmd line interfaces, APIs to interact with K8S cluster
+
+2. etcd
+    To store K8S cluster data and logs
+
+3. Schedulers
+    To distribute work/containers accross nodes
+
+4. Controllers
+    Are like brain behind orchestration
+    Responcible for noticing and responding when nodes/containers/end points go down
+    Make decision to bring up new containers in such cases
+
+5. Container Run Time
+    Used to run containers like docker
+
+6. kublet
+    Is an agent that runs on each node of cluster
+    Responsible to make sure containers are running as expected
+
+
+Master has kube-apiserver
+Node has kubelet - provides kube-apiserver of health of nodes,  carry actoions requested by master
+All the information is stored in a key-value pair in the master - in etcd
+
+
+kubectl
+Is a cmd line utility tool or cmd
+To deploy and manage apps on cluster
+To get info/status of nodes
