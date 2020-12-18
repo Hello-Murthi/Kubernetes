@@ -48,3 +48,56 @@ kubectl
 Is a cmd line utility tool or cmd
 To deploy and manage apps on cluster
 To get info/status of nodes
+
+
+POD
+Is an object in node
+Contains 1/more containers
+When a Pod runs multiple containers, the containers are managed as a single entity
+
+kubectl run nginx --image nginx
+kubectl get pods
+
+
+YAML is used for inputs
+4 sections
+
+apiVersion - verion of K8S APIs
+kind - type of object (ex: POD, Service, ReplicaSet, Deployment)
+metadata - Data about objects (ex: name, labels...etc)
+spec - To specify actual objects like containers
+
+kubectl create -f pod-definition.yml
+kubectl get pods
+
+
+Replication Controllers
+Ensures that a specified number of pod replicas are running at any one time. 
+In other words, a ReplicationController makes sure that a pod always up and available
+
+Load Balance & scale by ReplicationController
+Helps balance the load accross multiple pods on different nodes to scale apps
+
+
+ReplicationController was older technique, now used as Replica Set to do same operation
+But still minor difference
+
+
+Services:
+Enabales communication withing & outside of application
+
+Ex:
+We have 3 PODs Frontend, Backend, DB 
+
+To enable communication between them and users 
+
+3 Types of Services
+1. NodePort
+    Listens external ports from node and forwards request to pod or internal networks
+
+2. ClusterIP
+    Service creates virtual IP in cluster to enable communication
+
+3. Load Balancer 
+    Provissions load balance in supported cloud providers
+    Ex: Distribute load accross nodes 
