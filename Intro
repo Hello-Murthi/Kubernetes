@@ -16,6 +16,7 @@ A container orchestration technology, used to orchestrationthe deployment, manag
 K8S Architecture
 A cluster with multiple child nodes and master node to manage child nodes
 
+
 Components of K8S
 1. API Server
     Is like front-end for K8S, user management devices, cmd line interfaces, APIs to interact with K8S cluster
