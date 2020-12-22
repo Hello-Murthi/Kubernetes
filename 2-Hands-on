@@ -1,0 +1,54 @@
+First
+minikube start --vm-driver virtualbox
+
+minikube start
+minikube stop
+
+Get Master & Nodes
+kubectl get nodes
+
+Create POD directly
+------------------------
+kubectl run my-app --image=nginx
+kubectl get pods
+kubectl describe pods
+kubectl get pods -o wide
+
+
+
+Create POD by YAML
+------------------------
+kubectl delete pods my-app
+
+kubectl create -f pod.yml
+
+
+
+Create ReplicaSet
+------------------------
+kubectl create -f pod.yml
+kubectl get replicaset
+kubectl describe replicaset
+kubectl delete pod myapp-pod
+kubectl get pods
+
+If we create another POD with same label, replica terminates it, so should use different label
+
+
+You can scale replicas by changing replica number in YAML
+
+kubectl replace -f pod.yml 
+
+Note: if you use "create", throws error by already file exists
+
+
+To scale replicas by cmds
+kubectl scale --replicas=3 -f pod.yml
+
+Note: here yaml file will be ignore, not updated
+
+kubectl get replicaset
+kubectl delete replicaset myapp-replicaset
+
+kubectl get replicaset
+kubectl get pods
