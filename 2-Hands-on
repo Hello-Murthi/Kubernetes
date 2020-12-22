@@ -52,3 +52,29 @@ kubectl delete replicaset myapp-replicaset
 
 kubectl get replicaset
 kubectl get pods
+
+
+
+
+Create Deployment
+------------------------
+kubectl create -f file.yml
+kubectl describe deployment
+
+
+Create Service
+------------------------
+
+Just to map existing Nginx and to hit browser
+
+kubectl create -f file.yml
+kubectl get service
+
+
+Now get Node IP and hit browser
+To see Node IP
+kubectl describe pods
+Under: Node
+
+Hit browser
+http://192.168.99.100:30020
