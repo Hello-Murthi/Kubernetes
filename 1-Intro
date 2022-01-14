@@ -13,18 +13,39 @@ Kubernetes
 A container orchestration technology, used to orchestrationthe deployment, management of hundreds/thousands of containers in a clustered environemnt
 
 
+
+
+
+
 K8S Architecture
 A cluster with multiple child nodes and master node to manage child nodes
 
+Kubernetes follows client-server architecture. Wherein, we have master installed on one machine and the node on separate Linux machines.
+
+
+Master:
+
+    * API Server
+    * etcd
+    * Scheduler
+    * Controllers
+
+Node
+
+    * Docker
+    * Kubelet
+    * Kubernetes Proxy
+
 
 Components of K8S
+
 1. API Server
     Is like front-end for K8S, user management devices, cmd line interfaces, APIs to interact with K8S cluster
 
 2. etcd
     To store K8S cluster data and logs
 
-3. Schedulers
+3. Scheduler
     To distribute work/containers accross nodes
 
 4. Controllers
@@ -32,12 +53,21 @@ Components of K8S
     Responcible for noticing and responding when nodes/containers/end points go down
     Make decision to bring up new containers in such cases
 
-5. Container Run Time
-    Used to run containers like docker
 
-6. kublet
+5. Docker
+    The first requirement of each node is Docker, which helps in running containers
+
+6. Kublet
     Is an agent that runs on each node of cluster
     Responsible to make sure containers are running as expected
+    It interacts with etcd store to read configuration details and right values
+
+7. Kubernetes Proxy Service
+    This is a proxy service which runs on each node and helps in making services available to the external host. 
+    It helps in forwarding the request to correct containers and is capable of performing primitive load balancing. 
+    It makes sure that the networking environment is predictable and accessible and at the same time it is isolated as well
+
+
 
 
 Master has kube-apiserver

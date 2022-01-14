@@ -1,0 +1,135 @@
+
+How do we control the resource usage of POD?
+
+	* With the use of limit and request resource usage of a POD can be controlled.
+
+
+How to monitor the Kubernetes cluster?
+	
+	* Prometheus is used for Kubernetes monitoring.
+
+
+Namespaces:
+
+	* Make it easier to organize the applications into groups that make sense, like a namespace of all the monitoring applications and a namespace for all the security applications
+
+
+What is an Operator?
+
+	* Operators are software extensions to K8s which make use of custom resources to manage applications and their components
+
+
+What is Ingress Default Backend?
+	
+	* It specifies what to do with an incoming request to the Kubernetes cluster that isn't mapped to any backend
+
+
+What is a Namespace in Kubernetes?
+	
+	* Namespaces are used for dividing cluster resources between multiple users. 
+
+	* They are meant for environments where there are many users spread across projects or teams and provide a scope of resources.
+
+
+What is the role of Load Balance in Kubernetes?
+
+	* Load balancing is a way to distribute the incoming traffic into multiple backend servers
+
+	2 Types:
+
+	Internal load balancer – This type of balancer automatically balances loads and allocates the pods with the required incoming load.
+
+	External Load Balancer – This type of balancer directs the traffic from the external loads to backend pods.
+
+
+By default, POD can communicate with any other POD
+
+
+How to troubleshoot if the POD is not getting scheduled?
+
+In K8’s scheduler is responsible to spawn pods into nodes. 
+There are many factors that can lead to unstartable POD. The most common one is running out of resources, use the commands like kubectl describe <POD> -n <Namespace> to see the reason why POD is not started. Also
+
+
+How to run a POD on a particular node?
+
+nodeName: specify the name of a node in POD spec configuration, it will try to run the POD on a specific node.
+nodeSelector: Assign a specific label to the node which has special resources and use the same label in POD spec so that POD will run only on that node.
+nodeaffinities: required DuringSchedulingIgnoredDuringExecution, preferredDuringSchedulingIgnoredDuringExecution are hard and soft requirements for running the POD on specific nodes. This will be replacing nodeSelector in the future. It depends on the node labels.
+
+
+What are the disadvantages of Kubernetes?
+
+Kubernetes dashboard is not as helpful as it should be
+Security is not very effective.
+It is very complex and can reduce productivity
+Kubernetes is more costly than its alternatives.
+
+
+What are the tools that are used for container monitoring?
+
+Heapster
+cAdvisor
+Prometheus
+InfluxDB
+Grafana
+
+
+Define orchestration in Kubernetes
+
+Orchestration in Kubernetes defines as an automatic method of scheduling the work of every container. It is used for applications that are based on microservices within clusters.
+
+
+
+Mention the list of objects of Kubernetes?
+
+Objects that are used in Kubernetes are: 1) Pods, 2) Replication sets and controllers, 3) Jobs and cron jobs, 4) Daemon sets, 5) Distinctive identities, 6) Deployments, 7) and Stateful sets.
+
+
+
+Define Stateful sets in Kubernetes
+
+The stateful set is a workload API object that is used to manage the stateful application. It can also be used to manage the deployments and scaling the sets of pods. The state information and other data of stateful pods are store in the disk storage, which connects with stateful set.
+
+
+
+Why use Daemon sets?
+
+Daemon sets are used because:
+
+It enables to runs storage platforms like ceph and glusterd on each node.
+Daemon sets run the logs collection on every node such as filebeat or fluentd.
+It performs node monitoring on each and every node.
+
+
+
+Explain Replica set
+
+A Replica set is used to keep replica pods stable. It enables us to specify the available number of identical pods. This can be considered a replacement for the replication .controller.
+
+
+
+ What are the objectives of the replication controller?
+
+The objectives of the replication controller are:
+
+It is responsible for controlling and administering the pod lifecycle.
+It monitors and verifies whether the allowed number of replicas are running or not.
+The replication controller helps the user to check the pod status.
+It enables to alter a pod. The user can drag its position the way interested in it.
+
+
+
+
+What are Secrets in Kubernetes?
+
+Secrets are sensitive information like login credentials of the user. They are objects in Kubernetes that stores sensitive information like username and password after performing encryption.
+
+
+
+
+How can containers within a pod communicate with each other?
+ 
+Containers within a pod share networking space and can reach other on localhost. For instance, if you have two containers within a pod, a MySQL container running on port 3306, and a PHP container running on port 80, the PHP container could access the MySQL one through localhost:3306.
+
+
