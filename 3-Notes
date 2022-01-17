@@ -1,52 +1,15 @@
 
-minikube start --vm-driver virtualbox
-
-kubectl get pods --all-namespaces
-
-ClusterIP
-/minikube ip
-
-
-./minikube dashboard
-
-
-./minikube start
-./minikube stop
-
-
-To make a package available global in cmd
-Ex: we have exe file like we run ./package --
-
-chmod +x package
-sudo mv -v minikube /usr/local/bin
-
-Now! Global CMD!!!
-
-
-
-
-
-
-
-
-
-
-
-
-
+-------------------------------------------------------------------------
 
 Create POD:
 
-
 kubectl get nodes 
 
---------------------------------
 If we want to create POD directly without yaml
 kubectl run nginx --image nginx
 
---------------------------------
-By Yaml
 
+* By Yml:
 
 
 apiVersion: v1
@@ -73,13 +36,9 @@ kubectl delete deployment nginx
 kubectl create -f file.yml
 kubectl get pods
 
-
---------------------------------
-
+-------------------------------------------------------------------------
 
 Relica Sets:
-
-
 
 apiVersion: apps/v1
 
@@ -110,7 +69,6 @@ spec:
 		app: myapp
 
 
-
 kubectl create -f file.yml
 kubectl get replicaset
 kubectl get pods
@@ -118,17 +76,16 @@ kubectl delete pod pod-name
 
 kubectl describe replicaset
 
---------------------------------
+-------------------------------------------------------------------------
 
-Deployment
-
+Deployment:
 
 1. How to deploy app?
 2. If there update to docker image, need to upgrade pods which have those docker apps, upgrade one after one
 3. If there is Undo in image deployment in docker containers/pods, to roll back
 4. Other changes, resourse modification/scaling env...etc, so pause env, make change and resume
 
-same yaml as replicaset, just change kind to Deployment
+Same yaml as replicaset, just change kind to Deployment
 
 kubectl create -f file.yml
 
@@ -137,3 +94,5 @@ kubectl get replicaset
 kubectl get pods
 
 kubectl get all
+
+-------------------------------------------------------------------------

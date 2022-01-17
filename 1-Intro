@@ -1,128 +1,134 @@
-Developed by Google
+
+-------------------------------------------------------------------------
 
 How K8S born?
-Issue with Containers
+
+Due to issue with Containers:
+
 1. What if a container relies on other container?
 2. What if no. of users increase and scall app?
 3. How to scale down when decreases
 
-This process of deploying, managing of containers automatically is container orchestration
+-------------------------------------------------------------------------
 
+What is Container Orchestration?
 
-Kubernetes
+The process of deploying, managing of containers automatically is container orchestration
+
+-------------------------------------------------------------------------
+
+Kubernetes:
+
 A container orchestration technology, used to orchestrationthe deployment, management of hundreds/thousands of containers in a clustered environemnt
 
+-------------------------------------------------------------------------
 
+Architecture:
 
-
-
-
-K8S Architecture
-A cluster with multiple child nodes and master node to manage child nodes
-
-Kubernetes follows client-server architecture. Wherein, we have master installed on one machine and the node on separate Linux machines.
-
+* A cluster with multiple child nodes and one master node
+* Kubernetes follows client-server architecture
+* Wherein, we have master installed on one machine and the node on separate Linux machines
 
 Master:
 
-    * API Server
-    * etcd
-    * Scheduler
-    * Controllers
+* API Server
+* Controllers
+* Scheduler
+* etcd
 
 Node
 
-    * Docker
-    * Kubelet
-    * Kubernetes Proxy
+* Docker
+* Kubelet
+* Kubernetes Proxy
 
+-------------------------------------------------------------------------
 
-Components of K8S
+Components of K8S:
 
 1. API Server
-    Is like front-end for K8S, user management devices, cmd line interfaces, APIs to interact with K8S cluster
+    * Is like front-end for K8S, user management devices, cmd line interfaces, APIs to interact with K8S cluster
 
-2. etcd
-    To store K8S cluster data and logs
+2. Controllers
+    * Are like brain behind orchestration
+    * Responcible for noticing and responding when nodes/containers/end points go down
+    * Make decision to bring up new containers in such cases
 
 3. Scheduler
-    To distribute work/containers accross nodes
+    * To distribute work/containers accross nodes
 
-4. Controllers
-    Are like brain behind orchestration
-    Responcible for noticing and responding when nodes/containers/end points go down
-    Make decision to bring up new containers in such cases
-
+4. etcd
+    * To store K8S cluster data and logs
 
 5. Docker
-    The first requirement of each node is Docker, which helps in running containers
+    * The first requirement of each node is Docker, which helps in running containers
 
 6. Kublet
-    Is an agent that runs on each node of cluster
-    Responsible to make sure containers are running as expected
-    It interacts with etcd store to read configuration details and right values
+    * Is an agent that runs on each node of cluster
+    * Responsible to make sure containers are running as expected
+    * It interacts with etcd store to read configuration details and right values
 
 7. Kubernetes Proxy Service
-    This is a proxy service which runs on each node and helps in making services available to the external host. 
-    It helps in forwarding the request to correct containers and is capable of performing primitive load balancing. 
-    It makes sure that the networking environment is predictable and accessible and at the same time it is isolated as well
+    * This is a proxy service which runs on each node and helps in making services available to the external host. 
+    * It helps in forwarding the request to correct containers and is capable of performing primitive load balancing. 
+    * It makes sure that the networking environment is predictable and accessible and at the same time it is isolated as well
 
+-------------------------------------------------------------------------
 
+Master has kube-apiserver:
 
+Node has kubelet - provides health of nodes to kube-apiserver, carry actoions requested by master
 
-Master has kube-apiserver
-Node has kubelet - provides kube-apiserver of health of nodes,  carry actoions requested by master
-All the information is stored in a key-value pair in the master - in etcd
+-------------------------------------------------------------------------
 
+kubectl:
 
-kubectl
-Is a cmd line utility tool or cmd
-To deploy and manage apps on cluster
-To get info/status of nodes
+* Is a cmd line utility tool or cmd
+* To deploy and manage apps on cluster
+* To get info/status of nodes
 
+-------------------------------------------------------------------------
 
-POD
-Is an object in node
-Contains 1/more containers
-When a Pod runs multiple containers, the containers are managed as a single entity
+POD:
+
+* Is an object in node
+* Contains 1/more containers
+* When a Pod runs multiple containers, the containers are managed as a single entity
 
 kubectl run nginx --image nginx
 kubectl get pods
 
+-------------------------------------------------------------------------
 
-YAML is used for inputs
-4 sections
+YAML is used for inputs:
 
-apiVersion - verion of K8S APIs
-kind - type of object (ex: POD, Service, ReplicaSet, Deployment)
-metadata - Data about objects (ex: name, labels...etc)
-spec - To specify actual objects like containers
+4 sections:
+
+* apiVersion - verion of K8S APIs
+* kind - type of object (ex: POD, Service, ReplicaSet, Deployment)
+* metadata - Data about objects (ex: name, labels...etc)
+* spec - To specify actual objects like containers
 
 kubectl create -f pod-definition.yml
 kubectl get pods
 
+-------------------------------------------------------------------------
 
-Replication Controllers
-Ensures that a specified number of pod replicas are running at any one time. 
-In other words, a ReplicationController makes sure that a pod always up and available
+Replication Controllers:
 
-Load Balance & scale by ReplicationController
-Helps balance the load accross multiple pods on different nodes to scale apps
-
-
-ReplicationController was older technique, now used as Replica Set to do same operation
+* Ensures that a specified number of pod replicas are running at any one time. 
+* In other words, a ReplicationController makes sure that a pod always up and available
+* Load Balance & scale by ReplicationController
+* Helps balance the load accross multiple pods on different nodes to scale apps
+* ReplicationController was older technique, now used as Replica Set to do same operation
 But still minor difference
 
+-------------------------------------------------------------------------
 
 Services:
-Enabales communication withing & outside of application
 
-Ex:
-We have 3 PODs Frontend, Backend, DB 
+3 Types of Services:
 
-To enable communication between them and users 
-
-3 Types of Services
 1. NodePort
     Listens external ports from node and forwards request to pod or internal networks
 
@@ -130,5 +136,7 @@ To enable communication between them and users
     Service creates virtual IP in cluster to enable communication
 
 3. Load Balancer 
-    Provissions load balance in supported cloud providers
+    Provisions load balance in supported cloud providers
     Ex: Distribute load accross nodes 
+
+-------------------------------------------------------------------------

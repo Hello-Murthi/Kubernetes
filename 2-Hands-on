@@ -1,39 +1,69 @@
-First
+
+-------------------------------------------------------------------------
+
+First Time
 minikube start --vm-driver virtualbox
 
 minikube start
 minikube stop
 
-Get Master & Nodes
 kubectl get nodes
 
+-------------------------------------------------------------------------
+
+minikube start --vm-driver virtualbox
+
+kubectl get pods --all-namespaces
+
+ClusterIP
+/minikube ip
+./minikube dashboard
+
+./minikube start
+./minikube stop
+
+-------------------------------------------------------------------------
+
+To make a minikube package available in all path
+
+Ex: we have to exe file like we run ./minikube
+
+chmod +x package
+sudo mv -v minikube /usr/local/bin
+
+Now! Global CMD!!!
+
+-------------------------------------------------------------------------
+
 Create POD directly
-------------------------
+
 kubectl run my-app --image=nginx
 kubectl get pods
 kubectl describe pods
 kubectl get pods -o wide
 
-
+-------------------------------------------------------------------------
 
 Create POD by YAML
-------------------------
-kubectl delete pods my-app
 
 kubectl create -f pod.yml
+kubectl delete pods my-app
 
-
+-------------------------------------------------------------------------
 
 Create ReplicaSet
-------------------------
+
 kubectl create -f pod.yml
 kubectl get replicaset
 kubectl describe replicaset
 kubectl delete pod myapp-pod
 kubectl get pods
 
+-------------------------------------------------------------------------
+
 If we create another POD with same label, replica terminates it, so should use different label
 
+-------------------------------------------------------------------------
 
 You can scale replicas by changing replica number in YAML
 
@@ -41,6 +71,7 @@ kubectl replace -f pod.yml
 
 Note: if you use "create", throws error by already file exists
 
+-------------------------------------------------------------------------
 
 To scale replicas by cmds
 kubectl scale --replicas=3 -f pod.yml
@@ -53,17 +84,16 @@ kubectl delete replicaset myapp-replicaset
 kubectl get replicaset
 kubectl get pods
 
-
-
+-------------------------------------------------------------------------
 
 Create Deployment
-------------------------
+
 kubectl create -f file.yml
 kubectl describe deployment
 
+-------------------------------------------------------------------------
 
 Create Service
-------------------------
 
 Just to map existing Nginx and to hit browser
 
@@ -72,9 +102,12 @@ kubectl get service
 
 
 Now get Node IP and hit browser
+
 To see Node IP
 kubectl describe pods
 Under: Node
 
 Hit browser
 http://192.168.99.100:30020
+
+-------------------------------------------------------------------------
