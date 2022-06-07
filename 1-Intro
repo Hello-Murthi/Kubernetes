@@ -140,3 +140,48 @@ Services:
     Ex: Distribute load accross nodes 
 
 -------------------------------------------------------------------------
+
+K8S Volumes
+
+Persistent Volume
+Persistent Volume Claim
+Storage Class
+
+
+* To avoid data loss when POD restarts 
+* Storage must available on any node 
+* Even if cluster crashes 
+
+
+Persistent Volume:
+* A resource in K8S cluster, can be created by YAML
+* Just like Physical resource/disk 
+* Can be local disk, nfs server, cloud...etc
+* Doesn't matter where it is, get it by Type of Storage 
+* Are not NameSpaced 
+
+
+Persistent Volume Claim:
+* App to claim/get storage spaces from PV
+* Created by YAML and used/specified in POD YAML 
+* So, POD -> PVC - PV
+* Should be Namespaced
+* Can be mounted by Container level after PVC
+
+
+PVC needs Secrets & ConfigMap to access outside storage spaces
+
+
+Storage Class:
+* Creates storage type dynamically
+* By YAML
+
+
+1. POD claims storage via PVC
+2. PVC requests storage from SC
+3. SC creates PV that meets the needs of Claim
+
+
+POD -> PVC -> SC -> PV
+
+-------------------------------------------------------------------------
