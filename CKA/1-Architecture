@@ -1,0 +1,221 @@
+
+Architecture:
+---------------------------------------------
+Master Node:
+    - Responsible for managing the Kubernetes cluster
+    - Storing information regarding the different nodes
+    - Planning which containers goes where
+    - Monitoring the nodes and containers on them...etc
+
+    - Master node does all of these using a set of components together known as the control plane components
+
+----------------------
+
+ETCD:
+    - Etcd is a database that stores information in a key value format
+    - Data is stored in a highly available key value store
+
+    - PORT : 2379
+    - CMD: etcdctl
+
+KubeAPI:
+    1. Authenticate User
+    2. Validate Request
+    3. Retrive Data
+
+    - Only component which interacts with ETCD
+    - Every User Request comes shere
+    - Not only kubectl, we can also request KubeAPI by curl
+
+Contrller Manager:
+    - Watch Status
+    - Remediate Situation
+    - A process continuosly monitors state of components in system
+    - Works towards bringing whole system to desire functioning state
+
+    - Has different types of controllers
+        - Node Controller
+        - Replication/ReplicaSet Controller
+        - Deployment Controller
+        - DaemonSet Controller
+        - StatefulSet Controller
+        - Job Controller
+        - CronJob Controller
+        - Service Controller
+        - Ingress Controller
+        - Namespace Controller
+        - Pod Controller
+
+    - Node Controller:
+        - Node Controller monitors node every 5 sec
+        - If it stops recieving Heart Beat, node is marked as unreachable
+        - But waits for 40 sec (Grace Period) before marking as unreachable 
+        - After marking unreachable, waits for 5 min to come back up
+        - If it doesn't come, then removes all pods from that and assigns to Healthy nodes
+
+    - Replication/ReplicaSet Controller:
+        - Responsible for monitoring status of ReplicaSet
+        - Ensures desired pods are running, if pod dies, it creates new
+
+    - There are more different types of controllers for everything like Deployment, PVC, Namespace...etc
+    - But all are installed as a single package in Contrller Manager
+
+1. 2 ways to deploy K8S, By KubeADM, By Manually downloading package
+2. To view all these components, we can see their PODs in kube-system namespace if deployed by KubeADM
+3. To view all these components, we can see their process/service if installed Manually by downloading package on VM , we can check by ps command
+
+
+Kube Scheduler:
+    - A scheduler identifies the right node to place a container
+    - Based on the containers resource requirements, worker nodes capacity
+    - Any other policies or constraints, such as taints and tolerations
+    - Node affinity rules that are on them.
+
+    - Only responsible for deciding which pod goes on which node, doesn't actually place pods on nodes
+    - KubeLet actually creates pod by Container Engine
+
+    - Example:
+        - Say a POD need 10 CPU
+        - Checks 2 Things: Filter Nodes, Rank Nodes
+        - In Filters, ignores In-Eligible Nodes
+        - In Rank Nodes, ranks by taking priority of eligible nodes to scedule pod
+        - We can also customize it
+
+---------------------------------------------
+
+Worker Node:
+----------------------
+
+KubeLet:
+    - Is like a leader in Worker Nodes
+    - Listens instructions of Kube API Server and executes
+    - If any POD need to be created, tells Docker Engine to create
+    - Also sends timely report/status to Kube API Server
+    - Can't be installed by KubeADM, only by downloading package
+
+KubeProxy:
+    - For container to communicate each other
+    - IP will be changed after pod restart, so uses service
+    - Serive is not in POD Network, Not in POD, it's in K8S Memory
+    - Implemented by KubeProxy
+    - Creates IP Tables Rules to forward traffic
+
+
+Docker v/s Container-D:
+- Initially Docker was Container Engine in Kubernetes
+- But Now, any other Container companies can become Container Engine in Kubernetes through CRI (Container Runtime Interface)
+- But these CRI based Engines should follow OCI Standards to become K8S Container Engine
+- OCI Standards:
+    - Image Spec - How image should be
+    - Run Time Spec - How container run time should be
+
+- Now also Docker is continued to Engine in K8S irrespective of CRI/Any other companies
+- K8S has CRI for Other Engines to run and Dockershim to run Docker Engine
+
+- Later ContainerD came which has qualities like Docker, and now Docker is removed
+- ContainerD has command line utilities like Docker - ctr and nerdctl - nerdctl is best
+- Now crictl command is there to interact with CRI based engines
+
+- As the K8S version gets changed, many changes could be there, check official Doc for current info
+
+- ctr, crictl - used for debugging purpose
+- nerdctl used for general purpose
+
+- ctr, nerdctl - from ContainerD community
+- crictl - from CRI community
+
+---------------------------------------------
+
+POD:
+- Containers inside a POD can communicate each other directly by localhost since they share same network space and storage space
+- Managed by Pod Controller
+
+Replication Controller:
+- Next version of POD, to ensure desired PODs are running, but not advance than Deployment (updates, scaling, and rollbacks)
+- Now it's called as ReplicaSet, only difference is it has selector, even if you haven't created any PODs, just giving it's label, can be managed by this ReplicaSet
+- Managed by ReplicaSet Controller
+
+Deployment:
+- Also creates ReplicaSet, and on top deployment comes
+- Managed by Deployment Controller
+
+
+Without YAML:
+
+Create an NGINX Pod
+kubectl run nginx --image=nginx
+kubectl run redis --image=redis -n finance
+
+
+Generate POD Manifest YAML file (-o yaml). Don't create it(--dry-run)
+kubectl run nginx --image=nginx --dry-run=client -o yaml
+
+Create a deployment
+kubectl create deployment --image=nginx nginx
+
+Generate Deployment YAML file (-o yaml). Don't create it(--dry-run)
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml
+
+Generate Deployment YAML file (-o yaml). Don’t create it(–dry-run) and save it to a file.
+kubectl create deployment --image=nginx nginx --dry-run=client -o yaml > nginx-deployment.yaml
+
+Make necessary changes to the file (for example, adding more replicas) and then create the deployment.
+kubectl create -f nginx-deployment.yaml
+
+
+OR
+
+In k8s version 1.19+, we can specify the --replicas option to create a deployment with 4 replicas.
+kubectl create deployment --image=nginx nginx --replicas=4 --dry-run=client -o yaml > nginx-deployment.yaml
+kubectl create deployment --image=httpd:2.4-alpine httpd-frontend --replicas=3 --dry-run=client -o yaml > nginx-deployment.yaml
+
+
+---------------------------------------------
+
+Service:
+
+NodePort:
+    - Uses Random Algorithm to distribute traffic during multiple pods
+    - Even if POD is in different Node, we can access it by that Node IP & same Port, service gets created across Nodes
+
+ClusterIP:
+    - For PODs internal communication
+    - When POD restarts IP gets changed, to avoid this we use ClusterIP
+
+Load Balancer:
+    - I can't give end user to access app by NodePorts, each Node has its own IP, so i will have to give multiple IPs
+    - To avoid it, we use LB
+
+
+Service:
+Create a Service named redis-service of type ClusterIP to expose pod redis on port 6379
+kubectl expose pod redis --port=6379 --name redis-service --dry-run=client -o yaml
+
+
+---------------------------------------------
+
+Namespace:
+    - kube-system - for network and other things
+    - kube-public - for public resources...etc
+
+
+---------------------------------------------
+
+Imperative commands:
+- Step by step commands
+- All kubectl edit, delete, expose
+
+Declarative commands:
+- Declare at once and apply it
+- kubectl apply
+
+---------------------------------------------
+
+kubectl apply:
+    - Maintains last applied changes in json file
+
+---------------------------------------------
+
+Scheduler:
+- K8S Doesn't allow to modify existing nodeName label of a POD, but can be achieved by Binding object
+
